@@ -310,6 +310,20 @@ export default function App() {
         .continue-link:hover { opacity:1 !important; color:${C.ember} !important; }
 
         .scroll-anchor { scroll-margin-top: 64px; }
+
+        @media (max-width: 768px) {
+          .sidebar { display: none !important; }
+          .topbar { padding: 0 16px !important; }
+          .topbar-brand { display: none !important; }
+          .progress-container { width: 80px !important; }
+          .main-content { padding: 0 !important; }
+          .section-header { padding: 40px 16px 20px !important; }
+          .ghost-num { font-size: 60px !important; right: 16px !important; opacity: 0.04 !important; }
+          .questions-wrapper { padding: 4px 16px 40px !important; }
+          .answered-stripe { left: -16px !important; }
+          .success-view { padding: 40px 24px !important; }
+          .continue-wrapper { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+        }
       `}</style>
 
       <div style={{
@@ -343,7 +357,7 @@ export default function App() {
         </div>
 
         {/* ════ TOPBAR ════════════════════════════════ */}
-        <div style={{
+        <div className="topbar" style={{
           position:"sticky", top:0, zIndex:200, height:64,
           background:`linear-gradient(180deg, rgba(4,0,26,0.98) 0%, rgba(6,0,42,0.95) 100%)`,
           backdropFilter:"blur(14px)",
@@ -355,7 +369,7 @@ export default function App() {
             <Logo h={28}/>
             <div style={{ width:1, height:18, background:"rgba(255,255,255,0.1)" }}/>
             {/* "marka" in 10% crimson tint label */}
-            <div style={{
+            <div className="topbar-brand" style={{
               padding:"3px 10px", borderRadius:4,
               background:T.crimson10,
               border:`1px solid rgba(201,27,122,0.2)`,
@@ -372,7 +386,7 @@ export default function App() {
             <span style={{ fontSize:10, color:"rgba(255,255,255,0.22)", letterSpacing:"0.15em", textTransform:"uppercase" }}>
               {answered}&nbsp;/&nbsp;{TOTAL_Q}
             </span>
-            <div style={{ width:140, height:3, background:"rgba(255,255,255,0.07)", borderRadius:2, overflow:"hidden" }}>
+            <div className="progress-container" style={{ width:140, height:3, background:"rgba(255,255,255,0.07)", borderRadius:2, overflow:"hidden" }}>
               <div style={{
                 height:"100%", background:GRAD_HORIZ, borderRadius:2,
                 width:`${progress}%`, transition:"width 0.4s",
@@ -392,7 +406,7 @@ export default function App() {
         <div style={{ display:"flex", flex:1, position:"relative", zIndex:1 }}>
 
           {/* ── SIDEBAR ──────────────────────────────── */}
-          <div style={{
+          <div className="sidebar" style={{
             width:224, flexShrink:0,
             background:`linear-gradient(180deg, rgba(4,0,18,0.98), rgba(6,0,28,0.98))`,
             borderRight:`1px solid ${C.border}`,
@@ -472,12 +486,12 @@ export default function App() {
             </div>
           </div>
 
-          {/* ── MAIN SCROLL AREA ─────────────────────── */}
-          <div ref={mainRef} style={{ flex:1, overflowY:"auto", height:"calc(100vh - 64px)" }}>
+          {/* ── MAIN SCROLL ──────────────────────────── */}
+          <div className="main-content" style={{ flex:1, height:"calc(100vh - 64px)", overflowY:"auto" }}>
 
             {submitted ? (
               /* SUCCESS */
-              <div style={{
+              <div className="success-view" style={{
                 minHeight:"100%", display:"flex", flexDirection:"column",
                 alignItems:"center", justifyContent:"center",
                 padding:"80px 48px", textAlign:"center",
@@ -523,13 +537,13 @@ export default function App() {
                 ref={el => secRefs.current[si] = el}
               >
                 {/* ── Section header ── */}
-                <div style={{
+                <div className="section-header" style={{
                   padding:"60px 64px 44px",
                   borderBottom:`1px solid ${C.border}`,
                   position:"relative", overflow:"hidden",
                 }}>
                   {/* Ghost number */}
-                  <div style={{
+                  <div className="ghost-num" style={{
                     position:"absolute", right:44, top:"50%", transform:"translateY(-50%)",
                     fontFamily:"'Prompt',sans-serif", fontWeight:900,
                     fontSize:"clamp(90px,12vw,160px)",
@@ -574,7 +588,7 @@ export default function App() {
                 </div>
 
                 {/* ── Questions ── */}
-                <div style={{ padding:"4px 64px 56px" }}>
+                <div className="questions-wrapper" style={{ padding:"4px 64px 56px" }}>
                   {sec.questions.map((q, qi) => {
                     const isAnswered = (() => {
                       const v = answers[q.id];
@@ -589,7 +603,7 @@ export default function App() {
                       }}>
                         {/* Answered indicator stripe */}
                         {isAnswered && (
-                          <div style={{
+                          <div className="answered-stripe" style={{
                             position:"absolute", left:-64, top:0, bottom:0, width:2,
                             background:GRAD_VERT,
                           }}/>
@@ -714,7 +728,7 @@ export default function App() {
                   })}
 
                   {/* ── Continue nudge / Submit ── */}
-                  <div style={{ marginTop:36, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                  <div className="continue-wrapper" style={{ marginTop:36, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
                     {si < SECTIONS.length - 1 ? (
                       <button
                         className="continue-link"
